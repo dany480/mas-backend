@@ -2,7 +2,7 @@ import {Column, CreateDateColumn, Entity,OneToMany, PrimaryColumn} from "typeorm
 import { Activy } from "./Activy";
 import {v4 as uuid} from 'uuid';
 
-@Entity()
+@Entity("course_units")
 class CourseUnit{
 
     constructor (){
@@ -20,9 +20,9 @@ class CourseUnit{
     name:string;
 
     @CreateDateColumn()
-    create_at: Date;
+    created_at: Date;
 
-    @OneToMany(() => Activy, activy => activy.unidade_curricular)
+    @OneToMany(() => Activy, activy => activy.course_unit)
     activies: Activy[];
 }
 

@@ -1,9 +1,9 @@
-import {Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn} from 'typeorm'
+import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn} from 'typeorm'
 
 import {v4 as uuid} from 'uuid';
 import { CourseUnit } from './CourseUnit';
 
-@Entity("activy")
+@Entity("activies")
 class Activy{
     
     constructor (){
@@ -21,13 +21,17 @@ class Activy{
     activy_date: string;
 
     @Column()
-    course_unit_id: string;
+    courseUnitId: string;
+
+    @Column()
+    grade: number;
 
     @CreateDateColumn()
-    create_at: Date;
+    created_at: Date;
 
-    @ManyToOne(() => CourseUnit, unidade_curricular => unidade_curricular.activies )
-    unidade_curricular : CourseUnit;
+    @ManyToOne(() => CourseUnit, course_unit => course_unit.activies )
+    @JoinColumn()
+    course_unit: CourseUnit;
 }
 
 export {Activy}
