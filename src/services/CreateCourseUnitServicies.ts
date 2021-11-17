@@ -1,25 +1,34 @@
 import {getRepository} from 'typeorm'
 import {CourseUnit} from '../models/CourseUnit'
 
-interface ActivyData{
+interface CourseUnitData{
     name: string;
     description: string;
 }
 
 class CreateCourseUnitServicies{
-    async execute ({name,description} : ActivyData){
-        const activyRepository = getRepository(CourseUnit);
 
-        const courseUnit = activyRepository.create({
+    async execute (data : CourseUnitData){
+
+        const {name,description} = data;
+
+        const courseUnitRepository = getRepository(CourseUnit);
+
+        const checkCourseUnitExists = await courseUnitRepository.findOne({name});
+
+        if (checkCourseUnitExists){
+            return {erro: "CourseUnit already exists"}
+
+        }
+
+        const courseUnit = courseUnitRepository.create({
            name,
            description
         });
 
-        await activyRepository.save(courseUnit);
+        await courseUnitRepository.save(courseUnit);
 
-        const checkActivyExists = await activyRepository.save (courseUnit);
-
-
+        return courseUnit;
     }
 }
 

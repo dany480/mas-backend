@@ -10,13 +10,16 @@ interface UserData{
 
 class CreateUserService {
 
-    public async execute ({name, email, password} : UserData){
+    public async execute (data:UserData){
+
+        const {name, email, password} = data;
+
         const userRepository = getRepository(User); 
 
-        const checkUserExists = await userRepository.findOne({email})
+        const checkUserExists = await userRepository.findOne({email});
 
         if (checkUserExists){
-            throw new Error('Email adrres already exist');
+            return {error:"Email adrres already exist"}
         }
 
         const hashedPassword = await hash(password, 8);
